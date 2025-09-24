@@ -48,7 +48,7 @@ async def show_set(update: Update, context: ContextTypes.DEFAULT_TYPE, set_index
     reply_markup = InlineKeyboardMarkup(keyboard)
     text = f"🎬 **Videos Available**\n\nSet {set_index + 1} of {len(VIDEO_SETS)}"
     
-    if hasattr(update, 'callback_query'):
+    if update.callback_query:
         await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode='Markdown')
     else:
         await update.message.reply_text(text, reply_markup=reply_markup, parse_mode='Markdown')
@@ -65,9 +65,14 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_set(update, context, set_index)
 
 def main():
+    # Create Application and pass it your bot's token.
     application = Application.builder().token(BOT_TOKEN).build()
+
+    # Add handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_click))
+
+    # Start the Bot
     print("🚀 Bot is running...")
     application.run_polling()
 
