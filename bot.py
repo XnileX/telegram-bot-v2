@@ -6,6 +6,9 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Cont
 logging.basicConfig(level=logging.INFO)
 BOT_TOKEN = os.environ['BOT_TOKEN']
 
+# Add your channel username here (without @)
+CHANNEL_USERNAME = "https://t.me/+Dsp6Zd69WKtlYjQ9"  # Replace with your actual channel username
+
 VIDEO_SETS = [
     [  # Set 1
         {"name": "📹 AMALIA LATEST", "url": "https://dupload.net/m7nqxwg1dfyo"},
@@ -35,6 +38,9 @@ async def show_set(update: Update, context: ContextTypes.DEFAULT_TYPE, set_index
             row.append(InlineKeyboardButton(videos[i+1]["name"], url=videos[i+1]["url"]))
         keyboard.append(row)
     
+    # Add Join Channel button above navigation buttons
+    keyboard.append([InlineKeyboardButton("📢 Join Channel for Direct Videos", url=f"https://t.me/{CHANNEL_USERNAME}")])
+    
     nav_buttons = []
     if set_index > 0:
         nav_buttons.append(InlineKeyboardButton("⬅️ Previous", callback_data=f"page_{set_index-1}"))
@@ -46,7 +52,7 @@ async def show_set(update: Update, context: ContextTypes.DEFAULT_TYPE, set_index
         keyboard.append(nav_buttons)
     
     reply_markup = InlineKeyboardMarkup(keyboard)
-    text = f"🎬 **Videos Available**\n\nSet {set_index + 1} of {len(VIDEO_SETS)}"
+    text = f"🎬 **Videos Available**\n\nSet {set_index + 1} of {len(VIDEO_SETS)}\n\n💡 *Prefer direct access? Join our channel!*"
     
     if update.callback_query:
         await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode='Markdown')
