@@ -6,8 +6,8 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Cont
 logging.basicConfig(level=logging.INFO)
 BOT_TOKEN = os.environ['BOT_TOKEN']
 
-# Add your channel username here (without @)
-CHANNEL_USERNAME = "https://t.me/+Dsp6Zd69WKtlYjQ9"  # Replace with your actual channel username
+# Use the full invite link for private channel
+CHANNEL_INVITE_LINK = "https://t.me/+Dsp6Zd69WKtlYjQ9"  # Your private channel invite link
 
 VIDEO_SETS = [
     [  # Set 1
@@ -38,8 +38,8 @@ async def show_set(update: Update, context: ContextTypes.DEFAULT_TYPE, set_index
             row.append(InlineKeyboardButton(videos[i+1]["name"], url=videos[i+1]["url"]))
         keyboard.append(row)
     
-    # Add Join Channel button above navigation buttons
-    keyboard.append([InlineKeyboardButton("📢 Join Channel for Direct Videos", url=f"https://t.me/{CHANNEL_USERNAME}")])
+    # Add Join Channel button above navigation buttons - use the direct link
+    keyboard.append([InlineKeyboardButton("📢 Join Channel for Direct Videos", url=CHANNEL_INVITE_LINK)])
     
     nav_buttons = []
     if set_index > 0:
